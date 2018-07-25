@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition/>
+        <conditional>false</conditional>
+        <name>Needit Overdue and soon expired records</name>
+        <run_as display_value="Wojciech Bonk">a0f502bedb1313007fe72fb748961989</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period/>
+        <run_start>2018-07-24 09:26:53</run_start>
+        <run_time>1969-12-31 23:00:00</run_time>
+        <run_type>daily</run_type>
+        <script><![CDATA[var ga = new GlideRecord('x_58872_needit_needit');
+var now = new GlideDateTime();
+ga.addQuery('u_when_needed','<',now);
+ga.query();
+var returnString = '';
+while(ga.next()){
+	returnString += '' + ga.number + ' ';
+}
+if (ga.getRowCount() > 0)
+	gs.info('WBO Overdue needIt Records: (total: ' + ga.getRowCount() + '): ' + returnString);
+else
+	gs.info('WBO no NeedIt Overdue recors found. ');
+//---------------
+var needItUtils = new NeedItUtils();
+var soonOverdueNeedIt = needItUtils.soonOverdueNeedIt();
+if (soonOverdueNeedIt.length > 0){
+	gs.info('WBO soon overdue records: ' + soonOverdueNeedIt.join(','));
+} else{
+	gs.info('WBO no soon overdue records');
+}
+//-----------------
+needItUtils.printOverdueNeedItTaskAndEvent();
+needItUtils.printSoonOverdueNeedItTaskAndEvent();
+
+]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>wojciech.bonk</sys_created_by>
+        <sys_created_on>2018-07-24 09:27:25</sys_created_on>
+        <sys_id>a74f28b4db2313007fe72fb748961982</sys_id>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>Needit Overdue and soon expired records</sys_name>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sysauto_script_a74f28b4db2313007fe72fb748961982</sys_update_name>
+        <sys_updated_by>wojciech.bonk</sys_updated_by>
+        <sys_updated_on>2018-07-24 10:52:33</sys_updated_on>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>
